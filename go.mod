@@ -1,3 +1,3 @@
-module typesamuel/go-experiments
+module github.com/scristobal/go-experiments
 
 go 1.18
