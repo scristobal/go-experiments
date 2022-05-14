@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestSingleSub(t *testing.T) {
+func TestBroadcast(t *testing.T) {
 
 	broker := NewBroker("")
 
@@ -18,7 +18,7 @@ func TestSingleSub(t *testing.T) {
 
 }
 
-func TestMultipleSubs(t *testing.T) {
+func TestRead(t *testing.T) {
 
 	broker := NewBroker("")
 
@@ -37,7 +37,7 @@ func TestMultipleSubs(t *testing.T) {
 
 }
 
-func TestLastMsg(t *testing.T) {
+func TestLastRead(t *testing.T) {
 
 	broker := NewBroker("")
 	subscriber := broker.NewSubscriber()
