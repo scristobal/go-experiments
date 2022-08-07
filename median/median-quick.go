@@ -1,14 +1,12 @@
 package median
 
-import "fmt"
-
 func MedianWithQuick(arr []int) int {
 
-	fmt.Println("input", arr)
+	//fmt.Println("input", arr)
 
 	mid := (len(arr) - 1) / 2
 
-	fmt.Println("mid", mid)
+	//fmt.Println("mid", mid)
 
 	if mid < 0 {
 		return 0 // happens when len(arr) == 0, should throw
@@ -18,12 +16,13 @@ func MedianWithQuick(arr []int) int {
 
 	for {
 
-		fmt.Println("looking at range", i, j)
+		//fmt.Println("looking at range", i, j)
 
 		x := arr[(len(arr)-1)/2]
-		fmt.Println("pivot", x)
+		//fmt.Println("pivot", x)
 
-		for i < j {
+	outer:
+		for {
 			for arr[i] < x {
 				i++
 			}
@@ -31,12 +30,41 @@ func MedianWithQuick(arr []int) int {
 				j--
 			}
 
-			arr[i], arr[j] = arr[j], arr[i]
-			i++
+			if arr[i] != arr[j] {
+				arr[i], arr[j] = arr[j], arr[i]
+			} else {
+
+				for k := 1; i+k < j; k++ {
+					if arr[i] > arr[i+k] {
+						arr[i], arr[i+k] = arr[i+k], arr[i]
+						break
+					}
+				}
+
+				for k := 1; j-k > i; k++ {
+					if arr[j] < arr[j-k] {
+						arr[j], arr[j-k] = arr[j-k], arr[j]
+						break
+					}
+				}
+
+			}
+
+			if i == j {
+				break
+			}
+
+			for k := i; k <= j; k++ {
+				if arr[k] != arr[j] {
+					continue outer
+				}
+			}
+			break
+
 		}
 
-		fmt.Println("arr after swapping", arr)
-		fmt.Println("pivot location after swapping", j)
+		//fmt.Println("arr after swapping", arr)
+		//fmt.Println("pivot location after swapping", j)
 
 		if i == mid {
 			return arr[i]
