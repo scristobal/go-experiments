@@ -2,7 +2,6 @@ package median
 
 import (
 	"container/heap"
-	"fmt"
 )
 
 // min priority queue definition
@@ -62,36 +61,35 @@ func (h *MaxHeap) Pop() any {
 func Median(s []int) int {
 
 	var minHeap MinHeap = []int{}
-	minH := &minHeap
+	highValues := &minHeap
 
 	var maxHeap MaxHeap = []int{}
-	maxH := &maxHeap
+	lowerValues := &maxHeap
 
 	if len(s) == 0 {
 		return 0
 	}
 
-	minH.Push(s[0])
+	if len(s) == 1 {
+		return s[0]
+	}
 
-	for i := 1; i < len(s); i++ {
+	if s[0] < s[1] {
+		lowerValues.Push(s[0])
+		highValues.Push(s[1])
+	} else {
+		lowerValues.Push(s[1])
+		highValues.Push(s[0])
+	}
 
-		med := minH.Pop().(int)
+	for i := 2; i < len(s); i++ {
 
-		if s[i] >= med {
-			heap.Push(minH, s[i])
-			heap.Push(maxH, med)
-		} else {
-			heap.Push(maxH, s[i])
-			heap.Push(minH, med)
-		}
+		heap.Push(highValues, s[i])
 
-		if minH.Len() < maxH.Len() {
-			heap.Push(minH, heap.Pop(maxH).(int))
+		for lowerValues.Len() < highValues.Len() {
+			heap.Push(lowerValues, heap.Pop(highValues).(int))
 		}
 	}
 
-	fmt.Println("min", minH)
-	fmt.Println("max", maxH)
-
-	return minHeap[0]
+	return (*lowerValues)[0]
 }
