@@ -58,7 +58,7 @@ func (h *MaxHeap) Pop() any {
 	return x
 }
 
-func Median(s []int) int {
+func MedianWithHeap(s []int) int {
 
 	var minHeap MinHeap = []int{}
 	highValues := &minHeap

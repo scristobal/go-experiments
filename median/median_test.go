@@ -84,7 +84,21 @@ func TestMedian(t *testing.T) {
 
 	s := []int{3, 1, 2, 4}
 
-	m := Median(s)
+	m := MedianWithHeap(s)
+
+	withSort := MedianWithSort(s)
+
+	if m != withSort {
+		t.Errorf("Median did not return the right value, expected %d returned %d", withSort, m)
+	}
+
+}
+
+func TestMedianQuick(t *testing.T) {
+
+	s := Rand(10, 8)
+
+	m := MedianWithQuick(s)
 
 	withSort := MedianWithSort(s)
 
@@ -110,7 +124,7 @@ func BenchmarkMedian(b *testing.B) {
 
 	b.Run("with-heap", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			Median(data)
+			MedianWithHeap(data)
 		}
 	})
 
