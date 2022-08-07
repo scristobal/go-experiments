@@ -78,3 +78,15 @@ func TestMaxQueue(t *testing.T) {
 	}
 
 }
+
+func TestMedian(t *testing.T) {
+
+	s := []int{3, 1, 2, 4}
+
+	m := Median(s)
+
+	if m != 2 {
+		t.Errorf("Median did not return the right value, expected 2 returned %d", m)
+	}
+
+}
