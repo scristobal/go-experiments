@@ -3,7 +3,6 @@ package median
 import (
 	"container/heap"
 	"math/rand"
-	"sort"
 	"testing"
 )
 
@@ -81,13 +80,6 @@ func TestMaxQueue(t *testing.T) {
 
 }
 
-func MedianWithSort(arr []int) int {
-
-	sort.Ints(arr)
-
-	return arr[(len(arr)-1)/2]
-}
-
 func TestMedian(t *testing.T) {
 
 	s := []int{3, 1, 2, 4}
@@ -110,17 +102,23 @@ func Rand(max int, size int) []int {
 	return b
 }
 
-var randomSeq = Rand(100, 100)
+func BenchmarkMedian(b *testing.B) {
 
-func BenchmarkHeap(b *testing.B) {
+	data := Rand(100, 10000)
 
-	for i := 0; i < b.N; i++ {
-		Median(randomSeq)
-	}
-}
+	b.ResetTimer()
 
-func BenchmarkSort(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		MedianWithSort(randomSeq)
-	}
+	b.Run("with-heap", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			Median(data)
+		}
+	})
+
+	b.Run("with-sort", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+
+			MedianWithSort(data)
+		}
+	})
+
 }
