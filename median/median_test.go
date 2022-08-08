@@ -96,9 +96,23 @@ func TestMedian(t *testing.T) {
 
 func TestMedianQuick(t *testing.T) {
 
-	s := Rand(10, 100)
+	s := Rand(10, 10)
 
 	m := MedianWithQuick(s)
+
+	withSort := MedianWithSort(s)
+
+	if m != withSort {
+		t.Errorf("Median did not return the right value, expected %d returned %d", withSort, m)
+	}
+
+}
+
+func TestMedianDivide(t *testing.T) {
+
+	s := Rand(10, 100)
+
+	m := MedianDivide(s)
 
 	withSort := MedianWithSort(s)
 
@@ -118,36 +132,32 @@ func Rand(max int, size int) []int {
 
 func BenchmarkMedian(b *testing.B) {
 
-	data := Rand(10, 100_000)
-	ref := MedianWithSort(data)
-	var m int
+	data := Rand(10, 10_000_000)
 
-	b.ResetTimer()
-
-	b.Run("with-heap", func(b *testing.B) {
-		for i := 0; i < b.N; i++ {
-			m = MedianWithHeap(data)
-		}
-	})
-
-	if ref != m {
-		b.Errorf("Median did not return the right value, expected %d returned %d", ref, m)
-	}
+	/*
+		b.Run("with-heap", func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				MedianWithHeap(data)
+			}
+		})
+	*/
 
 	b.Run("with-sort", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			MedianWithSort(data)
 		}
 	})
-
-	b.Run("with-quick", func(b *testing.B) {
+	/*
+		b.Run("with-quick", func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				MedianWithQuick(data)
+			}
+		})
+	*/
+	b.Run("with-divide", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			m = MedianWithQuick(data)
+			MedianDivide(data)
 		}
 	})
-
-	if ref != m {
-		b.Errorf("Median did not return the right value, expected %d returned %d", ref, m)
-	}
 
 }
