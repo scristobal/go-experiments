@@ -96,7 +96,7 @@ func TestMedian(t *testing.T) {
 
 func TestMedianQuick(t *testing.T) {
 
-	s := Rand(10, 10)
+	s := Rand(10, 100)
 
 	m := MedianWithQuick(s)
 
@@ -132,7 +132,7 @@ func Rand(max int, size int) []int {
 
 func BenchmarkMedian(b *testing.B) {
 
-	data := Rand(10, 10_000_000)
+	data := Rand(10, 10_000)
 
 	/*
 		b.Run("with-heap", func(b *testing.B) {
@@ -147,13 +147,13 @@ func BenchmarkMedian(b *testing.B) {
 			MedianWithSort(data)
 		}
 	})
-	/*
-		b.Run("with-quick", func(b *testing.B) {
-			for i := 0; i < b.N; i++ {
-				MedianWithQuick(data)
-			}
-		})
-	*/
+
+	b.Run("with-quick", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			MedianWithQuick(data)
+		}
+	})
+
 	b.Run("with-divide", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			MedianDivide(data)

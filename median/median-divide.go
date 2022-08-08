@@ -1,37 +1,33 @@
 package median
 
 func split(arr []int, pivot int, mid int) ([]int, int, int) {
-	smaller, s := make([]int, len(arr)), 0
-	larger, l := make([]int, len(arr)), 0
-	equal, e := make([]int, len(arr)), 0
+
+	splitter := make([]int, len(arr))
+	i, j := 0, len(arr)-1
 
 	for _, v := range arr {
 		if v < pivot {
-			smaller[s] = v
-			s++
+			splitter[i] = v
+			i++
 		} else if v > pivot {
-			larger[l] = v
-			l++
-		} else {
-			equal[e] = v
-			e++
+			splitter[j] = v
+			j--
 		}
 	}
 
-	if s <= mid && mid < (s+e) {
+	if i <= mid && mid < j {
 		return []int{pivot}, pivot, mid
 	}
 
-	if s > mid {
-		arr = smaller[:s]
+	if i > mid {
+		arr = splitter[:i]
 	} else {
-		arr = larger[:l]
-		mid = mid - s - e
+		arr = splitter[j:]
+		mid = mid - j
 	}
 
 	pivot = arr[(len(arr)-1)/2]
 	return arr, pivot, mid
-
 }
 
 func MedianDivide(arr []int) int {
