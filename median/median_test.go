@@ -132,15 +132,13 @@ func Rand(max int, size int) []int {
 
 func BenchmarkMedian(b *testing.B) {
 
-	data := Rand(10, 10_000)
+	data := Rand(10, 100_000)
 
-	/*
-		b.Run("with-heap", func(b *testing.B) {
-			for i := 0; i < b.N; i++ {
-				MedianWithHeap(data)
-			}
-		})
-	*/
+	b.Run("with-heap", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			MedianWithHeap(data)
+		}
+	})
 
 	b.Run("with-sort", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
