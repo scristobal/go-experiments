@@ -3,14 +3,14 @@ package median
 func MedianWithQuick(arr []int) int {
 
 	mid := (len(arr) - 1) / 2
-	l, m := 0, len(arr)-1
+	l, h := 0, len(arr)-1
 	var pivot int
 
 	for l != mid+1 {
 
-		pivot = arr[l+(m-l)/2]
+		pivot = arr[l+(h-l)/2]
 
-		i, j := l, m
+		i, j := l, h
 		for i < j {
 			for arr[i] <= pivot {
 				i++
@@ -26,7 +26,7 @@ func MedianWithQuick(arr []int) int {
 		if i < mid+1 {
 			l = i + 1
 		} else {
-			m = j - 1
+			h = j - 1
 		}
 	}
 
